@@ -8,6 +8,7 @@ RUN apk add --no-cache \
     bash \
     curl \
     jq \
+    openssh-client \
     && rm -rf /var/cache/apk/*
 
 # Install supercronic for cron scheduling
@@ -36,6 +37,13 @@ ENV SCHEDULE="**None**" \
     POSTGRES_PORT="5432" \
     POSTGRES_USER="**None**" \
     POSTGRES_PASSWORD="**None**" \
-    POSTGRES_EXTRA_OPTS=""
+    POSTGRES_EXTRA_OPTS="" \
+    SSH_TUNNEL_ENABLED="false" \
+    SSH_HOST="**None**" \
+    SSH_USER="root" \
+    SSH_PORT="22" \
+    SSH_PRIVATE_KEY="**None**" \
+    SSH_RETRY_COUNT="3" \
+    SSH_RETRY_DELAY="5"
 
 CMD ["/run.sh"] 
