@@ -10,7 +10,7 @@
 
 services:
   pgbackups3-outline:
-    image: harbor.sslane/home-automation/pgbackups3:2.0.0
+    image: harbor.sslane/home-automation/pgbackups3:2.1.0
     restart: unless-stopped
     env_file:
       - .env_pgbackups3
@@ -27,7 +27,7 @@ services:
       # SSH_PRIVATE_KEY: "-----BEGIN OPENSSH PRIVATE KEY-----\n...\n-----END OPENSSH PRIVATE KEY-----"
 
   pgbackups3-umami:
-    image: harbor.sslane/home-automation/pgbackups3:2.0.0
+    image: harbor.sslane/home-automation/pgbackups3:2.1.0
     restart: unless-stopped
     env_file:
       - .env_pgbackups3
@@ -38,7 +38,7 @@ services:
       POSTGRES_EXTRA_OPTS: '--schema=public --blobs'
 
   pgbackups3-shlink:
-    image: harbor.sslane/home-automation/pgbackups3:2.0.0
+    image: harbor.sslane/home-automation/pgbackups3:2.1.0
     restart: unless-stopped
     env_file:
       - .env_pgbackups3
@@ -49,7 +49,7 @@ services:
       POSTGRES_EXTRA_OPTS: '--schema=public --blobs'
 
   pgbackups3-bitwarden:
-    image: harbor.sslane/home-automation/pgbackups3:2.0.0
+    image: harbor.sslane/home-automation/pgbackups3:2.1.0
     restart: unless-stopped
     env_file:
       - .env_pgbackups3
