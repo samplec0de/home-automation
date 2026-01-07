@@ -1,9 +1,9 @@
-FROM alpine:3.19
+FROM alpine:3.23
 
-# Install PostgreSQL 16 client tools and other dependencies
+# Install PostgreSQL 18 client tools and other dependencies
 RUN apk add --no-cache \
-    postgresql16 \
-    postgresql16-contrib \
+    postgresql18 \
+    postgresql18-contrib \
     aws-cli \
     bash \
     curl \
