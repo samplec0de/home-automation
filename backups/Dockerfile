@@ -1,4 +1,4 @@
-FROM alpine:3.19
+FROM alpine:3.23
 
 # Install PostgreSQL 16 client tools and other dependencies
 RUN apk add --no-cache \
