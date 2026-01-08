@@ -104,7 +104,8 @@ if [ "${SSH_TUNNEL_ENABLED}" = "true" ]; then
   fi
 
   # Write SSH private key to file with secure permissions
-  echo "$SSH_PRIVATE_KEY" > "$SSH_KEY_FILE"
+  # Use printf instead of echo to correctly interpret escape sequences like \n
+  printf '%b\n' "$SSH_PRIVATE_KEY" > "$SSH_KEY_FILE"
   chmod 600 "$SSH_KEY_FILE"
 
   # Disable strict host key checking for automation
