@@ -1,0 +1,60 @@
+# Optional SSH Tunnel Configuration:
+# To connect to PostgreSQL via SSH tunnel (when database is not directly accessible),
+# add the following environment variables to any service:
+#   SSH_TUNNEL_ENABLED: "true"
+#   SSH_HOST: "your-ssh-server.example.com"
+#   SSH_USER: "root"  # optional, defaults to "root"
+#   SSH_PORT: "22"    # optional, defaults to "22"
+#   SSH_PRIVATE_KEY: "-----BEGIN OPENSSH PRIVATE KEY-----\n...\n-----END OPENSSH PRIVATE KEY-----"
+# Note: POSTGRES_HOST should be the hostname/IP as seen from the SSH server, not the backup container.
+
+services:
+  pgbackups3-outline:
+    image: harbor.sslane/home-automation/pgbackups3:2.1.0
+    restart: unless-stopped
+    env_file:
+      - .env_pgbackups3
+    environment:
+      SCHEDULE: '@daily'
+      POSTGRES_DATABASE: outline
+      S3_PREFIX: outline
+      POSTGRES_EXTRA_OPTS: '--schema=public --blobs'
+      # Uncomment below to enable SSH tunnel:
+      # SSH_TUNNEL_ENABLED: "true"
+      # SSH_HOST: "ssh-server.example.com"
+      # SSH_USER: "root"
+      # SSH_PORT: "22"
+      # SSH_PRIVATE_KEY: "-----BEGIN OPENSSH PRIVATE KEY-----\n...\n-----END OPENSSH PRIVATE KEY-----"
+
+  pgbackups3-umami:
+    image: harbor.sslane/home-automation/pgbackups3:2.1.0
+    restart: unless-stopped
+    env_file:
+      - .env_pgbackups3
+    environment:
+      SCHEDULE: '@daily'
+      POSTGRES_DATABASE: umami
+      S3_PREFIX: umami
+      POSTGRES_EXTRA_OPTS: '--schema=public --blobs'
+
+  pgbackups3-shlink:
+    image: harbor.sslane/home-automation/pgbackups3:2.1.0
+    restart: unless-stopped
+    env_file:
+      - .env_pgbackups3
+    environment:
+      SCHEDULE: '@daily'
+      POSTGRES_DATABASE: shlink
+      S3_PREFIX: shlink
+      POSTGRES_EXTRA_OPTS: '--schema=public --blobs'
+
+  pgbackups3-bitwarden:
+    image: harbor.sslane/home-automation/pgbackups3:2.1.0
+    restart: unless-stopped
+    env_file:
+      - .env_pgbackups3
+    environment:
+      SCHEDULE: '@daily'
+      POSTGRES_DATABASE: bitwarden
+      S3_PREFIX: bitwarden
+      POSTGRES_EXTRA_OPTS: '--schema=public --blobs'
