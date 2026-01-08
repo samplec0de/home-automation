@@ -91,6 +91,18 @@ if [ "${SSH_TUNNEL_ENABLED}" = "true" ]; then
 
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] 🔌 Setting up SSH tunnel to ${SSH_USER}@${SSH_HOST}:${SSH_PORT}..."
 
+  # Clean up any stale SSH tunnels from previous runs (e.g., if killed with SIGKILL)
+  # This prevents "port already in use" errors
+  if [ -f "/tmp/ssh_tunnel_${SSH_LOCAL_PORT}.pid" ]; then
+    OLD_PID=$(cat "/tmp/ssh_tunnel_${SSH_LOCAL_PORT}.pid" 2>/dev/null)
+    if [ -n "$OLD_PID" ] && kill -0 $OLD_PID 2>/dev/null; then
+      echo "[$(date '+%Y-%m-%d %H:%M:%S')] 🧹 Cleaning up stale SSH tunnel (PID: $OLD_PID)..."
+      kill $OLD_PID 2>/dev/null || true
+      sleep 1
+    fi
+    rm -f "/tmp/ssh_tunnel_${SSH_LOCAL_PORT}.pid"
+  fi
+
   # Write SSH private key to file with secure permissions
   echo "$SSH_PRIVATE_KEY" > "$SSH_KEY_FILE"
   chmod 600 "$SSH_KEY_FILE"
